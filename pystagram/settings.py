@@ -25,7 +25,7 @@ SECRET_KEY = 'f+8-w36ha%tg5cecxo^o3roq7u236aj9#+_=@yhs8^q-ecl5fc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.10', '127.0.0.1', 'hestiraid.iptime.org']
 
 
 # Application definition
