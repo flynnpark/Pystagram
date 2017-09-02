@@ -6,7 +6,7 @@ from .models import Profile
 class SignupForm(UserCreationForm):
     nickname = forms.CharField()
 
-    class Meta(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('email', ) # NOTE : User 모델의 email field 사용
 
     # NOTE : clean_<필드명> 메서드를 활용하여 is_valid() 메소드 실행시 nickname 필드에 대한 유효성 검증 실행
