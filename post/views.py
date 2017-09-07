@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Post
 from .forms import PostForm
 
@@ -8,6 +9,7 @@ def post_list(request):
         'post_list': post_list,
     })
 
+@login_required
 def post_new(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -19,6 +21,22 @@ def post_new(request):
             return redirect('post:post_list')
     else:
         form = PostForm()
+    return render(request, 'post/post_form.html', {
+        'form': form,
+    })
+
+@login_required
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            post.tag_set.all().delete()
+            post.tag_save()
+            return redirect('post:post_list')
+    else:
+        form = PostForm(instance=post)
     return render(request, 'post/post_form.html', {
         'form': form,
     })
