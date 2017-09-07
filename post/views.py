@@ -36,6 +36,7 @@ def post_edit(request, pk):
             post = form.save()
             post.tag_set.all().delete()
             post.tag_save()
+            messages.info(request, '수정 완료')
             return redirect('post:post_list')
     else:
         form = PostForm(instance=post)
@@ -47,7 +48,9 @@ def post_edit(request, pk):
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if post.author != request.user:
+        messages.info(request, '잘못된 접근입니다.')
         return redirect('post:post_list')
     else:
         post.delete()
+        messages.info(request, '삭제 완료')
         return redirect('post:post_list')
