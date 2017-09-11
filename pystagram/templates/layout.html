@@ -17,6 +17,11 @@
                 <!-- next 인자는 로그인 이후 이동할 url을 뜻함 -->
                 <a href="{% url "signup" %}">회원가입</a>
                 {% endif %}
+                <form class="" action="{% url "post:post_list" %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="tag" placeholder="태그 검색" required>
+                    {# <input type="submit"> - input이 하나일 때는 별도의 submit 없이 엔터로 전송이 가능 #}
+                </form>
             </div>
         {% block content %}
         {% endblock %}

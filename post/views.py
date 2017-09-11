@@ -6,6 +6,9 @@ from .forms import PostForm
 
 def post_list(request):
     post_list = Post.objects.prefetch_related('tag_set').select_related('author__profile').all()
+    if request.method == 'POST':
+        tag = request.POST.get('tag')
+        return redirect('post:post_search', tag)
     return render(request, 'post/post_list.html', {
         'post_list': post_list,
     })
@@ -60,7 +63,6 @@ def post_delete(request, pk):
 
 def post_search(request, tag):
     post_list = Post.objects.filter(tag_set__name__icontains=tag)
-    print(post_list)
     return render(request, 'post/post_search.html', {
         'tag': tag,
         'post_list': post_list,
