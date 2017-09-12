@@ -8,7 +8,8 @@ def post_list(request):
     post_list = Post.objects.prefetch_related('tag_set').select_related('author__profile').all()
     if request.method == 'POST':
         tag = request.POST.get('tag')
-        return redirect('post:post_search', tag)
+        tag_clean = ''.join(e for e in tag if e.isalnum()) # 특수문자 삭제
+        return redirect('post:post_search', tag_clean)
     return render(request, 'post/post_list.html', {
         'post_list': post_list,
     })
