@@ -9,11 +9,7 @@
             <li><a href="{% url "post:post_edit" post.pk %}">수정</a> / <a href="{% url "post:post_delete" post.pk %}" onClick="return confirm('정말 삭제하시겠습니까?')">삭제</a></li>
             {% endif %}
             <li><img src="{{ post.photo.url }}" alt="{{ post.author }}의 사진"></li>
-            {% if post.tag_set.count == 0 %}
-            <li>{{ post.content|safe|linebreaksbr }}</li>
-            {% else %}
-                {{ post.content|safe|linebreaksbr}}
-            {% endif %}
+            {{ post|add_link|safe|linebreaksbr }}
             <li>{{ post.created_at|naturaltime }}</li>
         </ul>
     {% endfor %}
