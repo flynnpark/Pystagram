@@ -1,5 +1,6 @@
 {% extends "post/layout.html" %}
 {% load humanize %}
+{% load post_extras %} {# custom filter 추가 #}
 
 {% block content %}
     {% for post in post_list %}
