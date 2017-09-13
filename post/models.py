@@ -34,6 +34,9 @@ class Post(models.Model):
             if not self.tag_set.filter(id=tag.id).exists():
                 self.tag_set.add(tag) # NOTE: ManyToManyField에 인스턴스 추가
 
+    def like_count(self):
+        return self.like_user_set.count();
+
     def __str__(self):
         return self.content
 
