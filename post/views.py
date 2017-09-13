@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Post
+import json
+from .models import Post, Like
 from .forms import PostForm
 
 def post_list(request):
-    post_list = Post.objects.prefetch_related('tag_set').select_related('author__profile').all()
+    post_list = Post.objects.prefetch_related('tag_set', 'like_user_set__profile').select_related('author__profile').all()
     if request.method == 'POST':
         tag = request.POST.get('tag')
         tag_clean = ''.join(e for e in tag if e.isalnum()) # 특수문자 삭제
@@ -68,3 +69,13 @@ def post_search(request, tag):
         'tag': tag,
         'post_list': post_list,
     })
+
+
+@login_required # TODO: Ajax로 처리하기
+def post_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    # 중간자 모델 Like를 사용하여, 현재 post와 request.user에 해당하는 Like 인스턴스를 가져온다.
+    post_like, post_like_created = post.like_set.get_or_create(user=request.user)
+    if not post_like_created:
+        post_like.delete()
+    return redirect('post:post_list')
