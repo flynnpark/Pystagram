@@ -11,13 +11,18 @@ from .forms import PostForm
 def post_list(request):
     post_list = Post.objects.prefetch_related('tag_set', 'like_user_set__profile').select_related('author__profile').all()
     paginator = Paginator(post_list, 3)
-    page_num = request.GET.get('page')
+    page_num = request.POST.get('page')
     try:
         posts = paginator.page(page_num)
     except PageNotAnInteger:
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
+    if request.is_ajax(): # Ajax request 여부 확인
+        print('ajax worked')
+        return render(request, 'post/post_list_ajax.html', {
+            'posts': posts,
+        })
     if request.method == 'POST':
         tag = request.POST.get('tag')
         tag_clean = ''.join(e for e in tag if e.isalnum()) # 특수문자 삭제
@@ -75,12 +80,25 @@ def post_delete(request, pk):
         return redirect('post:post_list')
 
 def post_search(request, tag):
-    post_list = Post.objects.filter(tag_set__name__iexact=tag).select_related('author__profile').prefetch_related('tag_set')
-    return render(request, 'post/post_list.html', {
+    post_list = Post.objects.filter(tag_set__name__iexact=tag).select_related('author__profile').prefetch_related('tag_set', 'like_user_set__profile')
+    paginator = Paginator(post_list, 3)
+    page_num = request.POST.get('page')
+    try :
+        posts = paginator.page(page_num)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = PageNotAnInteger.page(paginator.num_pages)
+    if request.is_ajax(): # Ajax request 여부 확인
+        print('ajax worked')
+        return render(request, 'post/post_list_search.html', {
+            'posts': posts,
+        })
+    return render(request, 'post/post_list_search.html', {
         'tag': tag,
-        'post_list': post_list,
+        'posts': posts,
+        'paginator': paginator,
     })
-
 
 @login_required
 @require_POST
