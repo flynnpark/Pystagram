@@ -52,3 +52,16 @@ class Like(models.Model):
     post = models.ForeignKey(Post)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    content = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-id']
+
+    def __str__(self):
+        return self.content
