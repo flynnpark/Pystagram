@@ -45,7 +45,15 @@
             <li>{{ post.created_at|naturaltime }}</li>
             {% for comment in post.comment_set.all %}
             <li>{{ comment.author.profile.nickname }} : {{ comment.content }}</li>
+            {% if user == comment.author %}
+
+            <form class="" action="{% url "post:comment_delete" post.pk comment.pk %}" method="post">
+                {% csrf_token %}
+                <input type="submit" name="" value="삭제" onclick="return confirm('정말 삭제하시겠습니까?')">
+            </form>
+            {% elseif %}
             {% endfor %}
+            {% if use.is_authenticated %}
             <li>
                 <form class="" action="{% url "post:comment_new" post.pk %}" method="post">
                     {% csrf_token %}
@@ -55,6 +63,7 @@
                     <input type="submit" name="" value="댓글 등록">
                 </form>
             </li>
+            {% endif %}
         </ul>
         <hr>
     {% endfor %}
