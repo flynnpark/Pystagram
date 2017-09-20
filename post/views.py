@@ -121,8 +121,9 @@ def post_like(request):
     return HttpResponse(json.dumps(context))
 
 @login_required
-def comment_new(request, post_pk):
-    post = get_object_or_404(Post, pk=post_pk)
+def comment_new(request):
+    pk = request.POST.get('pk')
+    post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -130,7 +131,9 @@ def comment_new(request, post_pk):
             comment.author = request.user
             comment.post = post
             comment.save()
-            return redirect("post:post_list")
+            return render(request, 'post/comment_new_ajax.html', {
+                'comment': comment,
+            })
     return redirect("post:post_list")
 
 @login_required
