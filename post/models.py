@@ -36,7 +36,7 @@ class Post(models.Model):
 
     @property
     def like_count(self):
-        return self.like_user_set.count();
+        return self.like_user_set.count()
 
     def __str__(self):
         return self.content

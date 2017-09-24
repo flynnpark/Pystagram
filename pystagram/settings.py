@@ -58,7 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pystagram.urls'
 
-INTERNAL_IPS = ["127.0.0.1"] # NOTE: django_debug_toolbar용 설정 추가
+INTERNAL_IPS = ['127.0.0.1', '192.168.0.10', 'hestiraid.iptime.org'] # NOTE: django_debug_toolbar용 설정 추가
 
 TEMPLATES = [
     {

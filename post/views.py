@@ -118,7 +118,7 @@ def post_like(request):
     context = {'like_count': post.like_count,
                 'message': message,
                 'nickname': request.user.profile.nickname}
-    return HttpResponse(json.dumps(context))
+    return HttpResponse(json.dumps(context), content_type="application/json")
 
 @login_required
 def comment_new(request):

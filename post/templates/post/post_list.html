@@ -72,7 +72,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
         // 좋아요 ajax
-        $(document).on('click'm '.like', function() {
+        $(document).on('click', '.like', function() {
             var pk = $(this).attr('name');
             $.ajax({ // .like 버튼을 클릭하면 새로고침 없이 ajax로 서버와 통신한다.
                 type: "POST",
@@ -88,7 +88,7 @@
                     if (users.indexOf(response.nickname) != -1) {
                         $("#like-user-" + pk).text(users.replace(response.nickname, ""));
                     } else {
-                        $("#like-user-" + pk).,text(response.nickname + users);
+                        $("#like-user-" + pk).text(response.nickname + users);
                     }
                 },
                 error: function(request, status, error) {
@@ -101,7 +101,7 @@
         // 댓글 등록 ajax
         $(document).on('click', '.add-comment', function() {
             var pk = $(this).attr('name');
-            var content = $("#add-comment-post" + pk " > input[type=text]").val();
+            var content = $("#add-comment-post" + pk + " > input[type=text]").val();
 
             if (content.length > 255) {
                 alert("댓글은 최대 255자까지 입력 가능합니다.\n현재 글자수 : " + content.length);
