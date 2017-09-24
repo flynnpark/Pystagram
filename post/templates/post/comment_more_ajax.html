@@ -1,0 +1,10 @@
+{% for comment in comments %}
+    <div class="comment{{ comment.id }}">
+        <li>
+            {{ comment.author.profile.nickname }} : {{ comment.content }}
+            {% if user == comment.author %}
+            <input type="button" name="{{ comment.id }}" value="삭제" class="del-comment">
+            {% endif %}
+        </li>
+    </div>
+{% endfor %}

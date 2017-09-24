@@ -12,7 +12,6 @@ def signup(request):
         if form.is_valid(): # clean_<필드명> 메서드 호출
             user = form.save()
             return redirect('login')
-
     else :
         form = SignupForm()
     return render(request, 'accounts/signup.html', {

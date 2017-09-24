@@ -18,9 +18,11 @@ class SignupForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if Profile.objects.filter(email=email).exists():
+        User = get_user_model()
+        if User.objects.filter(email=email).exists():
             raise forms.ValidationError('이미 사용중인 이메일입니다.')
         return email
+    
     def save(self):
         user = super().save()
         Profile.objects.create(

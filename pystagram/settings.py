@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,12 +54,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'pystagram.urls'
 
-INTERNAL_IPS = ['127.0.0.1', '192.168.0.10', 'hestiraid.iptime.org'] # NOTE: django_debug_toolbar용 설정 추가
+INTERNAL_IPS = ['127.0.0.1', '192.168.0.1', '192.168.0.10', '192.168.0.5', '192.168.0.4'] # NOTE: django_debug_toolbar용 설정 추가
 
 TEMPLATES = [
     {

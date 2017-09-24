@@ -139,8 +139,8 @@ def comment_new(request):
 @login_required
 def comment_delete(request):
     pk = request.POST.get('pk')
-    comment = get_object_or_404(Comment, pk)
-    if request.method == 'POST' and request.user == comment.author :
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.method == 'POST' and request.user == comment.author:
         comment.delete()
         message = '삭제 완료'
         status = 1
@@ -151,3 +151,13 @@ def comment_delete(request):
         'message': message,
         'status': status,
     }), content_type="application/json")
+
+def comment_more(request):
+    pk = request.POST.get('pk')
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == 'POST':
+        comments = post.comment_set.all()[4:]
+        return render(request, 'post/comment_more_ajax.html', {
+            'comments': comments,
+        })
+    return redirect("post:post_list")

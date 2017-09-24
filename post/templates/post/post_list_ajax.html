@@ -30,7 +30,7 @@
 
         {% for comment in post.comment_set.all %}
         <li id="comment{{ comment.id }}">
-            {{ comment.suthor.profile.nickname }} : {{ comment.content }}
+            {{ comment.author.profile.nickname }} : {{ comment.content }}
             {% if user == comment.author %}
             <input type="button" name="{{ comment.id }}" value="삭제" class="del-comment">
             {% endif %}
