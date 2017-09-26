@@ -29,7 +29,6 @@ class Post(models.Model):
         if not tags:
             return
         for t in tags:
-            self.save();
             tag, tag_created = Tag.objects.get_or_create(name=t)
             if not self.tag_set.filter(id=tag.id).exists():
                 self.tag_set.add(tag) # NOTE: ManyToManyField에 인스턴스 추가

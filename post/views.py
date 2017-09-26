@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from .models import Comment, Post, Like
 from .forms import CommentForm, PostForm
 
-def post_list(request):
+def post_list(request, tag=None):
     if tag:
         post_list = Post.objects.filter(tag_set__name__iexact=tag).select_related('author__profile').prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile')
     else:
@@ -65,7 +65,7 @@ def post_edit(request, pk):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
-            post.tag_set.all().delete()
+            post.tag_set.clear(); # NOTE: ManyToManyField의 모든 항목 삭제(해당 인스턴스 내에서만 적용)
             post.tag_save()
             messages.info(request, '수정 완료')
             return redirect('post:post_list')
