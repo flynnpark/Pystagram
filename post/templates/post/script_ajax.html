@@ -109,11 +109,7 @@
     // 무한 스크롤 ajax
     $('#callmorepost').click(function() {
         var page = $("#page").val();
-        var end_page = {
-            {
-                posts.paginator.num_pages
-            }
-        };
+        var end_page = {{ posts.paginator.num_pages }};
         if (page > end_page) {
             return;
         }
@@ -131,11 +127,7 @@
 
         if (scrollHeight >= documentHeight) {
             var page = $("#page").val();
-            var end_page = {
-                {
-                    posts.paginator.num_pages
-                }
-            };
+            var end_page = {{ posts.paginator.num_pages }};
             if (page > end_page) {
                 return;
             }
@@ -145,26 +137,17 @@
     })
 
     function callMorePostAjax(page) {
-        var end_page = {
-            {
-                posts.paginator.num_pages
-            }
-        };
+        var end_page = {{ posts.paginator.num_pages }};
         if (page > end_page) {
             return;
         }
         $.ajax({
             type: 'POST',
-            { %
-                if tag %
-            }
+            {% if tag %}
             url: "{% url 'post:post_search' tag %}",
-            { %
-                else %
-            }
+            {% else %}
             url: "{% url 'post:post_list' %}",
-            { % endif %
-            }
+            {% endif %}
             data: {
                 'page': page,
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
