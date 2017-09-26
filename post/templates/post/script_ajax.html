@@ -1,0 +1,183 @@
+<script type="text/javascript">
+    // 좋아요 ajax
+    $(document).on('click', '.like', function() {
+        var pk = $(this).attr('name');
+        $.ajax({ // .like 버튼을 클릭하면 새로고침 없이 ajax로 서버와 통신한다.
+            type: "POST",
+            url: "{% url 'post:post_like' %}",
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: "json",
+            success: function(response) {
+                alert(response.message);
+                $("#count-" + pk).html(response.like_count + "개");
+
+                var users = $("#like-user-" + pk).text();
+
+                if (users.indexOf(response.nickname) != -1) {
+                    $("#like-user-" + pk).text(users.replace(response.nickname, ""));
+                } else {
+                    $("#like-user-" + pk).text(response.nickname + users);
+                }
+            },
+            error: function(request, status, error) {
+                alert("로그인이 필요합니다.");
+                window.location.replace("/accounts/login/");
+            }
+        })
+    })
+
+    // 댓글 등록 ajax
+    $(document).on('click', '.add-comment', function() {
+        var pk = $(this).attr('name');
+        var content = $("#add-comment-post" + pk + " > input[type=text]").val();
+
+        if (content.length > 255) {
+            alert("댓글은 최대 255자까지 입력 가능합니다.\n현재 글자수 : " + content.length);
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'post:comment_new' %}",
+            data: {
+                'pk': pk,
+                'content': content,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: "html",
+            success: function(data, textStatus, jqXHR) {
+                alert("댓글을 추가하였습니다.");
+                $("#add-comment-post" + pk + " > input[type=text]").val("");
+                $("#comment-list-ajax-post" + pk).append(data);
+            },
+            error: function(request, status, error) {
+                alert("code: " + request.status + "\nmesssage: " + request.responseText + "\nerror: " + error);
+                alert("문제가 발생하였습니다.");
+            },
+        })
+    })
+
+    // 댓글 삭제 ajax
+    $(document).on('click', '.del-comment', function() {
+        var pk = $(this).attr('name');
+        $.ajax({
+            type: "POST",
+            url: "{% url 'post:comment_delete' %}",
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: "json",
+            success: function(response) {
+                if (response.status) {
+                    $('#comment' + pk).remove();
+                }
+                alert(response.message);
+            },
+            error: function(request, status, error) {
+                alert("code: " + request.status + "\nmesssage: " + request.responseText + "\nerror: " + error);
+                alert("문제가 발생하였습니다.");
+            },
+        })
+    })
+
+    // 댓글 더보기 ajax
+    $(document).on('click', '.comment-more', function() {
+        var pk = $(this).attr('name');
+        $.ajax({
+            type: "POST",
+            url: "{% url 'post:comment_more' %}",
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: "html",
+            success: function(data, textStatus, jqXHR) {
+                $("#comment-more-" + pk).append(data);
+                $(".comment-more[name=" + pk + "]").remove();
+            },
+            error: function(request, status, error) {
+                alert("code: " + request.status + "\nmessage: " + request.responseText + "\nerror: " + error);
+                alert("문제가 발생했습니다.");
+            },
+        })
+    })
+
+    // 무한 스크롤 ajax
+    $('#callmorepost').click(function() {
+        var page = $("#page").val();
+        var end_page = {
+            {
+                posts.paginator.num_pages
+            }
+        };
+        if (page > end_page) {
+            return;
+        }
+        callMorePostAjax(page);
+        $("#page").val(parseInt(page) + 1);
+    });
+
+    $(window).scroll(function() {
+        var scrollHeight = $(window).scrollTop() + $(window).height();
+        var documentHeight = $(document).height();
+
+        console.log("documentHeight: " + documentHeight);
+        console.log("windowHeight: " + $(window).height());
+        console.log("scrollHeight: " + scrollHeight);
+
+        if (scrollHeight >= documentHeight) {
+            var page = $("#page").val();
+            var end_page = {
+                {
+                    posts.paginator.num_pages
+                }
+            };
+            if (page > end_page) {
+                return;
+            }
+            callMorePostAjax(page);
+            $("#page").val(parseInt(page) + 1);
+        }
+    })
+
+    function callMorePostAjax(page) {
+        var end_page = {
+            {
+                posts.paginator.num_pages
+            }
+        };
+        if (page > end_page) {
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            { %
+                if tag %
+            }
+            url: "{% url 'post_search' tag %}",
+            { %
+                else %
+            }
+            url: "{% url 'post:post_list' %}",
+            { % endif %
+            }
+            data: {
+                'page': page,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: addMorePostAjax,
+            dataType: 'html',
+            error: function(request, status, error) {
+                alert('에러 발생');
+            },
+        });
+    }
+
+    function addMorePostAjax(data, textStatus, jqXHR) {
+        $('#post_list_ajax').append(data);
+    }
+</script>
