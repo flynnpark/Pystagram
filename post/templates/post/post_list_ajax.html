@@ -26,16 +26,23 @@
         {{ post|add_link|safe|linebreaksbr }}
         <li>{{ post.created_at|naturaltime }}</li>
 
+        {% if post.comment_set.all.count > 4 %}
+        <input type="button" name="{{ post.id }}" value="댓글 더보기" class="comment-more">
+        {% endif %}
+
         <div id="comment-list-ajax-post{{ post.id }}" class=""></div>
 
-        {% for comment in post.comment_set.all %}
-        <li id="comment{{ comment.id }}">
-            {{ comment.author.profile.nickname }} : {{ comment.content }}
-            {% if user == comment.author %}
-            <input type="button" name="{{ comment.id }}" value="삭제" class="del-comment">
-            {% endif %}
-        </li>
+        {% for comment in post.comment_set.all|slice:":4" %}
+        <div id="comment{{ comment.id }}">
+            <li>
+                {{ comment.author.profile.nickname }} : {{ comment.content }}
+                {% if user == comment.author %}
+                <input type="button" name="{{ comment.id }}" value="삭제" class="del-comment">
+                {% endif %}
+            </li>
+        </div>
         {% endfor %}
+        <div class="comment-more-{{ post.id }}"></div>
 
         {% if user.is_authenticated %}
         <li id="add-comment-post{{ post.id }}">
