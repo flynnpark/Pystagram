@@ -27,6 +27,10 @@
                     {% csrf_token %}
                     <input type="submit" name="" value="팔로우">
                 </form>
+                팔로워 :
+                {% for follower in post.author.profile.get_follower %}
+                    {{ follower.nickname }}
+                {% endfor %}
             </li>
             {% if post.author == user %}
             <li><a href="{% url "post:post_edit" post.pk %}">수정</a></li>
