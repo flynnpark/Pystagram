@@ -10,3 +10,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ['id', 'nickname', 'user']
     list_display_links = ['nickname', 'user']
     search_fields = ['nickname']
+
+@admin.register(Relation)
+class RelationAdmin(admin.ModelAdmin):
+    list_display = ['from_user', 'to_user', 'created_at']
+    list_display_links = ['from_user', 'to_user', 'created_at']

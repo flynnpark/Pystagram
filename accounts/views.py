@@ -1,8 +1,11 @@
+import json
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 from .forms import SignupForm
 from .models import Profile, Relation
 
@@ -40,13 +43,21 @@ def password_change(request):
     })
 
 @login_required
+@require_POST
 def follow(request, pk):
     from_user = request.user.profile
+    pk = request.POST.get('pk')
     to_user = get_object_or_404(Profile, pk=pk)
     relation, created = Relation.objects.get_or_create(from_user=from_user, to_user=to_user)
     if created:
-        messages.success(request, '팔로우 시작!')
+        message = '팔로우 시작!'
+        status = 1
     else:
         relation.delete()
-        messages.success(request, '팔로우 취소')
-    return redirect('post:post_list')
+        message = '팔로우 취소'
+        status = 0
+    context = {
+        'message': message,
+        'satsut': status,
+    }
+    return HttpResponse(json.domps(context), content_type="appliccation/json")

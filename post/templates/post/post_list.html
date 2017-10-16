@@ -21,16 +21,18 @@
     {% endif %}
     {% for post in posts %}
         <ul>
+            <li>{{ post.author.profile.nickname }}</li>
             <li>
-                {{ post.author.profile.nickname }}
-                <form class="" action="{% url "follow" post.author.pk %}" method="post">
-                    {% csrf_token %}
-                    <input type="submit" name="" value="팔로우">
-                </form>
-                팔로워 :
+                {% if user.profile in post.author.profile.get_follower %}
+                <input type="submit" name="{{ post.author.profile.id }}" value="following" class="follow">
+                {% else %}
+                <input type="submit" name="{{ post.author.profile.id }}" value="follow" class="follow">
+                {% endif %}
+                <span>
                 {% for follower in post.author.profile.get_follower %}
                     {{ follower.nickname }}
                 {% endfor %}
+                </span>
             </li>
             {% if post.author == user %}
             <li><a href="{% url "post:post_edit" post.pk %}">수정</a></li>

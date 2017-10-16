@@ -1,4 +1,29 @@
 <script type="text/javascript">
+    // 팔로우 ajax
+    $(document).on('click', '.follow', function() {
+        var pk = $(this).attr('name');
+        $.ajax({
+            type: "POST",
+            url: "{% url 'follow' %}",
+            data: {
+                'pk': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: "json",
+            success: function(response) {
+                alert(response.message);
+                if (response.status) {
+                    $("input.follow[name=" + pk + "]").val("following");
+                } else {
+                    $("input.follow[name=" + pk + "]").val("follow");
+                }
+            },
+            error: function(request, status, error) {
+                alert("code: " + request.status + "\nmessage: " + request.responseText + "\nerror: " + error);
+            }
+        })
+    });
+
     // 좋아요 ajax
     $(document).on('click', '.like', function() {
         var pk = $(this).attr('name');
