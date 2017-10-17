@@ -5,6 +5,7 @@ from .models import Profile
 
 class SignupForm(UserCreationForm):
     nickname = forms.CharField()
+    picture = forms.ImageField()
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('email', ) # NOTE : User 모델의 email field 사용
@@ -22,10 +23,11 @@ class SignupForm(UserCreationForm):
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError('이미 사용중인 이메일입니다.')
         return email
-    
+
     def save(self):
         user = super().save()
         Profile.objects.create(
             user = user,
-            nickname = self.cleaned_data['nickname'])
+            nickname = self.cleaned_data['nickname']),
+            picture = self.cleaned_data['picture'])
         return user
