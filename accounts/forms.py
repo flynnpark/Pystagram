@@ -28,6 +28,6 @@ class SignupForm(UserCreationForm):
         user = super().save()
         Profile.objects.create(
             user = user,
-            nickname = self.cleaned_data['nickname']),
+            nickname = self.cleaned_data['nickname'],
             picture = self.cleaned_data['picture'])
         return user

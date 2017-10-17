@@ -18,12 +18,12 @@ class Profile(models.Model):
     follow_set = models.ManyToManyField('self',
                                         blank = True,
                                         through = 'Relation',
-                                        symmetrical = False)
+                                        symmetrical = False, )
     picture = ProcessedImageField(upload_to = user_path,
                                 processors = [ResizeToFill(150, 150)],
                                 format = 'JPEG',
                                 options = {'quality': 90},
-                                blank = True)
+                                blank = True, )
 
     def __str__(self):
         return self.nickname
