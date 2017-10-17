@@ -26,7 +26,11 @@ class Profile(models.Model):
     def following_count(self):
         return len(self.get_following)
 
-    def is_follower
+    def is_follower(self, user):
+        return user in self.get_follower
+
+    def is_following(self, user):
+        return user in self.get_following
 
 class Relation(models.Model):
     from_user = models.ForeignKey(Profile, related_name='follow_user')
