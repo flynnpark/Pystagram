@@ -4,6 +4,12 @@
 {% for post in posts %}
     <ul>
         <li>{{ post.author.profile.nickname }}</li>
+        {% if user.profile in post.author.profile.get_follower %}
+        <input type="submit" name="{{ post.author.profile.id }}" value="following" class="follow">
+        {% else %}
+        <input type="submit" name="{{ post.author.profile.id }}" value="follow" class="follow">
+        {% endif %}
+        <span></span>
         {% if post.author == user %}
         <li><a href="{% url "post:post_delete" post.pk %}">수정</a></li>
         <li>

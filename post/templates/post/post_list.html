@@ -1,6 +1,6 @@
 {% extends "post/layout.html" %}
 {% load humanize %}
-{% load post_extras %} {# custom filter 추가 #}
+{% load post_extras %}
 
 {% block title %}
     {% if tag %}
@@ -29,9 +29,6 @@
                 <input type="submit" name="{{ post.author.profile.id }}" value="follow" class="follow">
                 {% endif %}
                 <span>
-                {% for follower in post.author.profile.get_follower %}
-                    {{ follower.nickname }}
-                {% endfor %}
                 </span>
             </li>
             {% if post.author == user %}

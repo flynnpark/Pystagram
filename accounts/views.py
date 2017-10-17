@@ -44,7 +44,7 @@ def password_change(request):
 
 @login_required
 @require_POST
-def follow(request, pk):
+def follow(request):
     from_user = request.user.profile
     pk = request.POST.get('pk')
     to_user = get_object_or_404(Profile, pk=pk)
@@ -58,6 +58,6 @@ def follow(request, pk):
         status = 0
     context = {
         'message': message,
-        'satsut': status,
+        'status': status,
     }
-    return HttpResponse(json.domps(context), content_type="appliccation/json")
+    return HttpResponse(json.dumps(context), content_type="appliccation/json")
