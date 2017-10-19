@@ -38,9 +38,14 @@ class SignupForm(UserCreationForm):
         return user
 
 class ProfileForm(forms.ModelForm):
+    about = forms.CharField(widget = forms.Textarea(attrs = {
+        'rows': 4,
+        'cols': 50,
+        'placeholder': '소개는 150자까지 등록 가능합니다',
+    }))
     class Meta:
         model = Profile
-        fields = ['nickname', 'picture']
+        fields = ['nickname', 'picture', 'about', 'gender']
 
     def clean_picture(self):
         picture = self.cleaned_.get('picture')
