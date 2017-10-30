@@ -2,60 +2,78 @@
 {% load post_extras %} {# custom filter 추가 #}
 
 {% for post in posts %}
-    <ul>
-        <li>{{ post.author.profile.nickname }}</li>
-        {% if user.profile in post.author.profile.get_follower %}
-        <input type="submit" name="{{ post.author.profile.id }}" value="following" class="follow">
-        {% else %}
-        <input type="submit" name="{{ post.author.profile.id }}" value="follow" class="follow">
-        {% endif %}
-        <span></span>
-        {% if post.author == user %}
-        <li><a href="{% url "post:post_delete" post.pk %}">수정</a></li>
-        <li>
-            <form class="" action="{% url "post:post_delete" post.pk %}" method="post">
-                {% csrf_token %}
-                <input type="submit" name="" value="삭제" onclick="return confirm('정말 삭제하시겠습니까?')">
-            </form>
-        </li>
-        {% endif %}
-        <li>
-            <input type="button" name="{{ post.id }}" value="Like" class="like">
-            <p id="count-{{ post.id }}">{{ post.like_count }}개</p>
-            <p id="like-user-{{ post.id }}">
-                {% for like_user in post.like_user_set.all %}
-                    {{ like_user.profile.nickname }}
-                {% endfor %}
-            </p>
-        </li>
-        <li><img src="{{ post.photo.url }}" alt="{{ post.author }}의 사진"></li>
-        {{ post|add_link|safe|linebreaksbr }}
-        <li>{{ post.created_at|naturaltime }}</li>
-
-        {% if post.comment_set.all.count > 4 %}
-        <input type="button" name="{{ post.id }}" value="댓글 더보기" class="comment-more">
-        {% endif %}
-
-        <div id="comment-list-ajax-post{{ post.id }}" class=""></div>
-
-        {% for comment in post.comment_set.all|slice:":4" %}
-        <div id="comment{{ comment.id }}">
-            <li>
-                {{ comment.author.profile.nickname }} : {{ comment.content }}
-                {% if user == comment.author %}
-                <input type="button" name="{{ comment.id }}" value="삭제" class="del-comment">
+    <article class="post_wrap">
+        <header>
+            <img class="user-pic" src="{{ post.author.profile.picture.url }}" alt="{{ post.author.profile.nickname }}의 프로필 사진">
+            <span class="post-username">{{ post.author.profile.nickname }}</span>
+            <span class="pull-right">
+                {% if user.profile in post.author.profile.get_follower %}
+                {# {% if post.author.profile in user_profile.follow_set.all %} #}
+                <input class="follow following-btn" type="submit" name="{{ post.author.profile.id }}" value="팔로잉">
+                {% else %}
+                <input class="follow follow-btn" type="submit" name="{{ post.author.profile.id }}" value="팔로우">
                 {% endif %}
-            </li>
-        </div>
-        {% endfor %}
-        <div class="comment-more-{{ post.id }}"></div>
+            </span>
 
-        {% if user.is_authenticated %}
-        <li id="add-comment-post{{ post.id }}">
-            {{ comment_form }}
-            <input type="button" name="{{ post.id }}" value="등록" class="add-comment">
-        </li>
-        {% endif %}
-    </ul>
-    <hr>
+            {% if post.author == user %}
+            <span class="pull-right">
+                <a class="post-edit" href="{% url "post:post_edit" post.pk %}">수정</a>
+                <form class="post-delete-form" action="{% url "post:post_delete" post.pk %}" method="post">
+                    {% csrf_token %}
+                    <input class="post-delete" type="submit" name="" value="삭제" onclick="return confirm('정말 삭제하시겠습니까?')">
+                </form>
+            </span>
+            {% endif %}
+        </header>
+        <img src="{{ post.photo.url }}" alt="{{ post.author }}의 사진">
+        <div class="post-content">
+            {% if user in post.like_user_set.all %}
+            <input type="button" class="like liked" name="{{ post.id }}" value="">
+            {% else %}
+            <input type="button" class="like to-like" name="{{ post.id }}" value="">
+            {% endif %}
+            <input type="button" class="comment-icon" name="{{ post.id }}" value="">
+            <p class="like-count" id="count-{{ post.id }}">좋아요 {{ post.like_count }}개</p>
+            <p class="like-user-{{ post.id }}">
+                {% if post.like_count != 0 %}
+                    {% if post.like_user_set.all %}
+                        {% for like_user in post.like_user_set.all %}
+                            {{ like_user.profile.nickname }}
+                        {% endfor %}
+                        님이 좋아합니다.
+                    {% endif %}
+                {% endif %}
+            </p>
+
+            <span class="post-username">{{ post.author.profile.nickname }}</span>
+            <span>{{ post|add_link|safe|linebreaksbr }}</span>
+            <div class="time">
+                {{ post.created_at|naturaltime }}
+            </div>
+
+            {% if post.comment_set.all.count > 4 %}
+            <input type="button" class="comment-more" name="{{ post.id }}" value="댓글 더 보기">
+            {% endif %}
+            <div id="comment-list-ajax-post{{ post.id }}" class=""></div>
+            {% for comment in post.comment_set.all|slice:":4" %}
+                <div id="comment{{ comment.id }}" class="">
+                    <span class="comment-username">{{ comment.author.profile.nickname }}</span> {{ comment.content }}
+                    {% if user == comment.author %}
+                    <input type="button" class="del-comment" name="{{ comment.id }}" value="삭제">
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div id="comment-more-{{ post.id }}" class=""></div>
+
+            <div id="add-comment-post{{ post.id }}" class="add-comment-wrap">
+                {% if user.is_authenticated %}
+                    {{ comment_form }}
+                    <input type="button" name="{{ post.id }}" value="등록" class="add-comment">
+                {% else %}
+                    {{ comment_form }}
+                    <input type="button" name="{{ post.id }}" value="등록" class="add-comment" onclick="alert('댓글을 작성하려면 로그인이 필요합니다.')">
+                {% endif %}
+            </div>
+        </div>
+    </article>
 {% endfor %}
