@@ -19,6 +19,7 @@
             <p>게시물 {{ posts.paginator.count|intcomma }}개</p>
         {% endif %}
     {% endif %}
+
     {% for post in posts %}
     <article class="post-wrap">
         <header>

@@ -133,4 +133,8 @@ myvenv/
 pyvenv.cfg
 pip-selfcheck.json
 
-# End of https://www.gitignore.io/api/django,python,database,virtualenv
+### Sass ###
+.sass-cache/
+*.css.map
+
+# End of https://www.gitignore.io/api/django,python,database,virtualenv,sass

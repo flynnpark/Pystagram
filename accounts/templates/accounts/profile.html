@@ -7,7 +7,7 @@
 {% block content %}
 <h3>{{ user.profile.nickname }}의 프로필</h3>
 <ul>
-    {% if user.profile.piciture %}
+    {% if user.profile.picture %}
     <li>picture: <img src="{{ user.profile.picture.url }}" alt=""></li>
     {% endif %}
     <li>username : {{ user.username }}</li>

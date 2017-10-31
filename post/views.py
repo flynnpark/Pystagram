@@ -16,7 +16,8 @@ def post_list(request, tag=None):
                     .select_related('author__profile')
     else:
         post_list = Post.objects.all()\
-                    .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )
+                    .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )\
+                    .select_related('author__profile')
         post_list = Post.objects.prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile').select_related('author__profile').all()
     comment_form = CommentForm()
     paginator = Paginator(post_list, 3)
