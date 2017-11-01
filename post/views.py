@@ -57,7 +57,7 @@ def my_post_list_detail(request, username):
     login_user = get_user_model().objects.filter(id = request.user.id).select_related('profile')\
                 .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )\
                 .select_related('author__profile', )
-                comment_form = CommentForm()
+    comment_form = CommentForm()
 
     paginator = Paginator(post_list, 3)
     page_num = request.POST.get('page')
