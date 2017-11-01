@@ -12,12 +12,14 @@
 
 {% block content %}
     {% if tag %}
+    <div class="search-header">
         {% if not posts %}
-            <p>"#{{ tag }}" 태그 검색 결과가 없습니다.</p>
+            <h1 class="search-result-title">#{{ tag }}<br>태그 검색 결과가 없습니다.</h1>
         {% else %}
-            <p>"#{{ tag }}" 태그 검색 결과</p>
-            <p>게시물 {{ posts.paginator.count|intcomma }}개</p>
+            <h1 class="search-result-title">#{{ tag }} 검색 결과</h1>
+            <span class="search-result-count">게시물 <span class="count">{{ posts.paginator.count|intcomma }}개</span></span>
         {% endif %}
+    </div>
     {% endif %}
 
     {% for post in posts %}
@@ -99,6 +101,9 @@
 
     <div id="post_list_ajax"class=""></div>
     <input id="page" type="hidden" name="" value="2">
+    {% if posts.paginator.count > 4 %}
     <button id="callmorepost" type="button" name="button">More posts</button>
+    {% endif %}
+    
     {% include "post/script_ajax.html" %}
 {% endblock %}
