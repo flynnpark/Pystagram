@@ -94,7 +94,7 @@ def my_post_list_detail(request, username):
 @login_required
 def follow_post_list(request):
     follow_set = request.user.profile.get_following
-    post_list = Post.objects.filter(author__profile__in = follow_set)|
+    post_list = Post.objects.filter(author__profile__in = follow_set)\
                 .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )\
                 .select_related('author__profile', )
     comment_form = CommentForm()
