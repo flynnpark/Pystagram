@@ -5,12 +5,18 @@
 {% endblock %}
 
 {% block content %}
-<h3>회원가입</h3>
-<form class="" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit">
-</form>
+<div class="form-conatiner">
+    <div class="form">
+        <h1 class="title">Instagram</h1>
+        <form class="" action="" method="post">
+            {% csrf_token %}
+                {{ form.as_p }}
+            <input type="submit" class="submit_btn" name="" value="가입">
+        </form>
+    </div>
+
+    <div class="shortcut">
+        <p class="link">계정이 있으신가요? <a href="{% url "login" %}">로그인</a></p>
+    </div>
+</div>
 {% endblock %}

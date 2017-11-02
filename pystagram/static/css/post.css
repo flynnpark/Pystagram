@@ -21,6 +21,11 @@ article.post-wrap header {
     color: #262626;
 }
 
+article.post-wrap header .user-title {
+    text-decoration: none;
+    color: #262626;
+}
+
 article.post-wrap header .user-pic {
     width: 30px;
     height: 30px;
@@ -174,6 +179,5 @@ article.post-wrap .post-content .add-comment-wrap .add-comment-btn {
     background-color: #fff;
     float: right;
 }
-
 
 /*# sourceMappingURL=post.css.map */

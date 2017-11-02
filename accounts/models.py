@@ -14,7 +14,7 @@ def user_path(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    nickname = models.CharField(max_length=30, unique=True)
+    nickname = models.CharField('닉네임', max_length=30, unique=True)
     follow_set = models.ManyToManyField('self',
                                         blank = True,
                                         through = 'Relation',
@@ -31,7 +31,7 @@ class Profile(models.Model):
         ('여성', '여성'),
         ('남성', '남성'),
     )
-    gender = models.CharField(max_length = 10, choices = GENDER_CHOICES, default = 'N')
+    gender = models.CharField('성별(선택사항)', max_length = 10, choices = GENDER_CHOICES, default = 'N')
 
     def __str__(self):
         return self.nickname

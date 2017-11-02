@@ -186,6 +186,8 @@
             type: 'POST',
             {% if tag %}
             url: "{% url 'post:post_search' tag %}",
+            {% elif follow_set %}
+            url: "{% url 'post:follow_post_list' %}",
             {% else %}
             url: "{% url 'post:post_list' %}",
             {% endif %}
