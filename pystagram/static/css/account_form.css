@@ -87,11 +87,11 @@
     overflow: hidden;
 }
 
-.account-form-container .account-form .username {
+.account-form-container .account-form .username, .account-form-container .account-form .form-title {
     display: inline-block;
     margin-left: 0 10px;
     vertical-align: middle;
-    font-weight: 200;
+    font-weight: 400;
     font-size: 30px;
 }
 

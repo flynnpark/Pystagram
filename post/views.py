@@ -134,7 +134,7 @@ def post_new(request):
             return redirect('post:post_list')
     else:
         form = PostForm()
-    return render(request, 'post/post_form.html', {
+    return render(request, 'post/post_new.html', {
         'form': form,
     })
 
@@ -154,7 +154,7 @@ def post_edit(request, pk):
             return redirect('post:post_list')
     else:
         form = PostForm(instance=post)
-    return render(request, 'post/post_form.html', {
+    return render(request, 'post/post_edit.html', {
         'form': form,
     })
 

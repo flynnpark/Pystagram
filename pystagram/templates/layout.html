@@ -8,6 +8,10 @@
         <title>{% block title %}Pystagram{% endblock %}</title>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
+        <!-- Favicon -->
+        <link rel="icon" sizes="192x192" href="{% static '/images/icon/icon_192x192.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{% static '/images/icon/icon_180x180.png'}">
+
         <!-- Bootstrap -->
         <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -16,6 +20,7 @@
         <link rel="stylesheet" href="{% static 'css/mylist.css' %}">
         <link rel="stylesheet" href="{% static 'css/search.css' %}">
         <link rel="stylesheet" href="{% static 'css/account_form.css' %}">
+        <link rel="stylesheet" href="{% static 'css/post_upload.css' %}">
         <link rel="stylesheet" href="{% static 'css/media.css' %}">
 
         <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
@@ -30,7 +35,7 @@
         <div class="container-fluid">
             <nav class="navbar navbar-default">
                 <div class="nav-wrap">
-                    <a class="logo pull-left" href=""></a>
+                    <a class="logo pull-left" href="/"></a>
 
                     <form class="search-form" action="{% url "post:post_list" %}" method="post">
                         {% csrf_token %}
@@ -38,14 +43,14 @@
                         {# <input type="submit"> - input이 하나일 때는 별도의 submit 없이 엔터로 전송이 가능하다/ #}
                         <span class="search-icon"></span>
                     </form>
+
                     <span class="pull-right">
                         <a class="new-post" href="{% url "post:post_new" %}"></a>
                         <a class="follow-list" href="{% url "post:follow_post_list" %}"></a>
                         {% if user.is_authenticated %}
                         <a class="account" href="{% url "post:my_post_list" user.username %}"></a>
                         {% else %}
-                        <a class="account" href="{% url "login" %}?next={{ request.path }}"></a>
-                        <a href="{% url "login" %}?next={{ request.path }}">로그인</a>
+                        <a class="account" href="{% url "login" %}"></a>
                         {% endif %}
                     </span>
                 </div>

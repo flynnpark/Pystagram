@@ -6,7 +6,7 @@
     <div class="mylist-header-info">
         <h1 class="username">{{ username }}</h1>
         {% if user.username == username %}
-        <a class="profile" href="{% url 'account_chante' %}">프로필 편집</a>
+        <a class="profile" href="{% url 'account_change' %}">프로필 편집</a>
         <a class="profile" href="{% url 'logout' %}">로그아웃</a>
         {% endif %}
 
@@ -16,7 +16,7 @@
             <li><span class="info-list-title">팔로워</span> {{ user.profile.follower_count }}</li>
             <li><span class="info-list-title">팔로우</span> {{ user.profile.following_count }}</li>
         </ul>
-        <p class="about"><span class="nickname">{{ user.profile.nickname }}</span> {{ user.profile.about }}</p>
+        <p class="about"><span class="nickname">{{ user.profile.nickname }}</span> {{ user.profile.about|urlize }}</p>
         {% endfor %}
     </div>
 </div>

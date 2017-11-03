@@ -16,7 +16,7 @@
     <div class="search-header">
         <h1 class="search-result-title">팔로우 목록</h1>
     </div>
-    {% elif not posts %}
+    {% elif not posts and not tag %}
     <div class="search-header">
         <h1 class="search-result-title">팔로우 중인 유저가 없습니다. 팔로우를 시작해보세요!</h1>
     </div>
@@ -81,9 +81,6 @@
 
             <span class="post-username">{{ post.author.profile.nickname }}</span>
             <span>{{ post|add_link|safe|linebreaksbr }}</span>
-            <div class="time">
-                {{ post.created_at|naturaltime }}
-            </div>
 
             {% if post.comment_set.all.count > 4 %}
             <input type="button" class="comment-more" name="{{ post.id }}" value="댓글 더 보기">
@@ -98,6 +95,10 @@
                 </div>
             {% endfor %}
             <div id="comment-more-{{ post.id }}" class=""></div>
+            
+            <div class="time">
+                {{ post.created_at|naturaltime }}
+            </div>
 
             <div id="add-comment-post{{ post.id }}" class="add-comment-wrap">
                 {% if user.is_authenticated %}
