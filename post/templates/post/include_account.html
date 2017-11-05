@@ -1,6 +1,6 @@
 <div class="mylist-header">
     <div class="mylist-header-pic">
-        <img class="my-pic" src="{{ user.profile.picture.url }}" alt="">
+        <img class="my-pic" src="{{ user_profile.picture.url }}" alt="">
     </div>
 
     <div class="mylist-header-info">
@@ -10,7 +10,7 @@
         <a class="profile" href="{% url 'logout' %}">로그아웃</a>
         {% endif %}
 
-        {% for user in login_user.all %}
+        {% for user in target_user.all %}
         <ul class="info-list">
             <li><span class="info-list-title">게시물</span> {{ user.post_set.count }}</li>
             <li><span class="info-list-title">팔로워</span> {{ user.profile.follower_count }}</li>

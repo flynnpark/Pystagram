@@ -44,15 +44,15 @@ def post_list(request, tag=None):
         'comment_form': comment_form,
     })
 
-@login_required
 def my_post_list(request, username):
     user = get_object_or_404(get_user_model(), username = username)
+    user_profile = user.profile
     target_user = get_user_model().objects.filter(id = user.id).select_related('profile')\
                 .prefetch_related('profile__follower_user__from_user', 'profile__follow_user__to_user')
-    user = get_object_or_404(get_user_model(), username = username)
     post_list = user.post_set.all()
 
     return render(request, 'post/my_post_list.html', {
+        'user_profile': user_profile,
         'target_user': target_user,
         'post_list': post_list,
         'username': username,
