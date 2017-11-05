@@ -78,46 +78,51 @@
         padding: 40px;
 
         .user-title {
-            width: 38px;
-            height: 38px;
-            background-color: #fafafa;
-            border: 1px solid rgba(0, 0, 0, .0975);
-            margin-right: 8px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
+            margin-bottom: 40px;
+            text-align: center;
 
-        .username, .form-title {
-            display: inline-block;
-            margin-left: 0 10px;
-            vertical-align: middle;
-            font-weight: 400;
-            font-size: 30px;
+            .account-pic {
+                width: 38px;
+                height: 38px;
+                background-color: #fafafa;
+                border: 1px solid rgba(0, 0, 0, .0975);
+                margin-right: 8px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .username, .form-title {
+                display: inline-block;
+                margin-left: 0 10px;
+                vertical-align: middle;
+                font-weight: 400;
+                font-size: 30px;
+            }
         }
     }
-}
 
-#picture-clear_id {
-    width: 12px;
-}
+    #picture-clear_id {
+        width: 12px;
+    }
 
-select {
-    background: 0 0 ;
-    border: 1px solid #efefef;
-    border-radius: 3px;
-    color: #262626;
-    font-family: -apple-systen, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    height: 32px;
-    padding: 0 30px 0 10px;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
+    select {
+        background: 0 0 ;
+        border: 1px solid #efefef;
+        border-radius: 3px;
+        color: #262626;
+        font-family: -apple-systen, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        height: 32px;
+        padding: 0 30px 0 10px;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
 
-.shortcut {
-    width: 100%;
+    .shortcut {
+        width: 100%;
 
-    .signup-link {
-        margin-top: 20px;
+        .signup-link {
+            margin-top: 20px;
+        }
     }
 }

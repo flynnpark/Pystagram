@@ -1,5 +1,7 @@
 {% extends "accounts/layout.html" %}
+
 {% block title %} 회원 정보 변경 {% endblock %}
+
 {% block content %}
 <div class="form-container account-form-container">
     <form class="form account-form" action="" method="post" enctype="multipart/form-data">
@@ -9,7 +11,7 @@
         </div>
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="submit_btn" type="submit" name="" value="">
+        <input class="submit_btn" type="submit" name="">
     </form>
     <div class="shortcut">
         <p class="signup-link">비밀번호 변경을 원하시나요? <a href="{% url "password_change" %}">비밀번호 변경</a></p>

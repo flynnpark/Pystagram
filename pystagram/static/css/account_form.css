@@ -78,6 +78,11 @@
 }
 
 .account-form-container .account-form .user-title {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.account-form-container .account-form .user-title .account-pic {
     width: 38px;
     height: 38px;
     background-color: #fafafa;
@@ -87,7 +92,7 @@
     overflow: hidden;
 }
 
-.account-form-container .account-form .username, .account-form-container .account-form .form-title {
+.account-form-container .account-form .user-title .username, .account-form-container .account-form .user-title .form-title {
     display: inline-block;
     margin-left: 0 10px;
     vertical-align: middle;
@@ -95,11 +100,11 @@
     font-size: 30px;
 }
 
-#picture-clear_id {
+.account-form-container #picture-clear_id {
     width: 12px;
 }
 
-select {
+.account-form-container select {
     background: 0 0;
     border: 1px solid #efefef;
     border-radius: 3px;
@@ -112,11 +117,11 @@ select {
     -webkit-appearance: none;
 }
 
-.shortcut {
+.account-form-container .shortcut {
     width: 100%;
 }
 
-.shortcut .signup-link {
+.account-form-container .shortcut .signup-link {
     margin-top: 20px;
 }
 
