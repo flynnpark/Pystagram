@@ -16,7 +16,6 @@
         <span class="post-username">{{ post.author.profile.nickname }}</span>
         <span class="pull-right">
             {% if user.profile in post.author.profile.get_follower %}
-            {# {% if post.author.profile in user_profile.follow_set.all %} #}
             <input class="follow following-btn" type="submit" name="{{ post.author.profile.id }}" value="팔로잉">
             {% else %}
             <input class="follow follow-btn" type="submit" name="{{ post.author.profile.id }}" value="팔로우">
@@ -34,7 +33,7 @@
         {% endif %}
     </header>
 
-    <img src="{{ post.photo.url }}" alt="{{ post.author }}의 사진">
+    <img src="{{ post.photo.url }}" alt="{{ post.author.nickname }}의 사진">
     <div class="post-content">
         {% if user in post.like_user_set.all %}
         <input type="button" class="like liked" name="{{ post.id }}" value="">

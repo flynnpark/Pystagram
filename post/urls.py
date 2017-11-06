@@ -13,5 +13,5 @@ urlpatterns=[
     url(r'^comment/more/$', views.comment_more, name='comment_more'),
     url(r'^explore/tags/(?P<tag>\w+)/$', views.post_list, name='post_search'),
     url(r'^like/$', views.post_like, name='post_like'),
-    url(r'^follow/$', views.follow_post_list, name='follow_post_list'),
+    url(r'^(?P<username>\w+)/list/follow/$', views.follow_post_list, name='follow_post_list'),
 ]

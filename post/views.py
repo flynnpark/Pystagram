@@ -58,9 +58,9 @@ def my_post_list(request, username):
         'username': username,
     })
 
-@login_required
 def my_post_list_detail(request, username):
     user = get_object_or_404(get_user_model(), username = username)
+    user_profile = user.profile
     target_user = get_user_model().objects.filter(id = user.id).select_related('profile')\
                 .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )\
                 .select_related('author__profile', )
@@ -86,10 +86,15 @@ def my_post_list_detail(request, username):
         })
 
     return render(request, 'post/my_post_list_detail.html', {
+        'user_profile': user_profile,
+        'username': username,
         'posts' : posts,
         'comment_form' : comment_form,
         'login_user' : login_user,
     })
+
+def follow_list(request, username):
+    pass
 
 @login_required
 def follow_post_list(request):

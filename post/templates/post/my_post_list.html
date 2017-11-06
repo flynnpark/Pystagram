@@ -1,9 +1,5 @@
 {% extends "post/layout.html" %}
 
-{% block title %}
-{{ user.profile.nickname }}(@{{ user.username }}) - Instagram
-{% endblock %}
-
 {% block content %}
 <div class="container-fluid">
     <div class="mylist-container">
@@ -12,7 +8,7 @@
             <div class="row">
                 {% for post in post_list %}
                 <div class="pic col-md-4">
-                    <a href="{% url 'post:my_post_list_detail' username %}"><img class="pic-src" src="{{ post.photo.url }}" alt=""></a>
+                    <a href="{% url 'post:my_post_list_detail' username %}"><img class="pic-src" src="{{ post.photo.url }}" alt="{{ post.author.nickname }}의 사진"></a>
                 </div>
                 {% endfor %}
             </div>
