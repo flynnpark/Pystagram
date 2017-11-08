@@ -4,8 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 class SignupForm(UserCreationForm):
-    nickname = forms.CharField(label='닉네임')
-    picture = forms.ImageField(label='프로필 사진', required=False)
+    username = forms.CharField(label = '사용자명', widget = forms.TextInput(attrs = {
+        'pattern': '[a-zA-Z0-9]+',
+        'title': '특수문자, 공백 입력 불가',
+    }))
+    nickname = forms.CharField(label = '닉네임')
+    picture = forms.ImageField(label = '프로필 사진', required = False)
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ('email', ) # NOTE : User 모델의 email field 사용
