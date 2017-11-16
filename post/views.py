@@ -3,13 +3,15 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-from .models import Comment, Post, Like
+from .models import Comment, Post, Like, Tag
 from .forms import CommentForm, PostForm
 
 def post_list(request, tag=None):
+    tag_all = Tag.objects.annotate(num_post = Count('post')).order_by('-num_post')
     if tag:
         post_list = Post.objects.filter(tag_set__name__iexact=tag)\
                     .prefetch_related('tag_set', 'like_user_set__profile', 'comment_set__author__profile', 'author__profile__follower_user', 'author__profile__follower_user_from_user', )\
@@ -42,6 +44,7 @@ def post_list(request, tag=None):
         'tag': tag,
         'posts': posts,
         'comment_form': comment_form,
+        'tag_all': tag_all,
     })
 
 def my_post_list(request, username):
